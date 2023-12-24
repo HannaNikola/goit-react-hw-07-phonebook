@@ -28,7 +28,11 @@ export const store = configureStore({
 
   
   middleware(getDefaultMiddleware) {
-    const defaultMiddleware = getDefaultMiddleware();
+    const defaultMiddleware = getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: ['persist/PERSIST'],
+      },
+    });
    return [...defaultMiddleware, myMiddleWare]
   }
 });
