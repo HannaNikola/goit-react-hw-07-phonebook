@@ -1,17 +1,19 @@
 import { useDispatch, useSelector } from "react-redux";
 import { Title, InputFilter, DivBox } from "./Filter.styled"
 import { FILTER_CONTACT } from "store/reducerFilterSlice";
+import { selectFilter } from "store/Selectors";
 
 
 export const FilterName = () => {
     const dispatch = useDispatch();
-    const filter = useSelector((state) => state.filter.filter);
-    
-        const handleFilterChange = (event) => {
-            const filterValue = event.target.value.toLowerCase();
-            
-        
-            dispatch(FILTER_CONTACT(filterValue));
+    // const filter = useSelector((state) => state.filter.filter);
+    const filter = useSelector(selectFilter);
+
+    const handleFilterChange = (event) => {
+        const filterValue = event.target.value.toLowerCase();
+
+
+        dispatch(FILTER_CONTACT(filterValue));
 
     };
 
