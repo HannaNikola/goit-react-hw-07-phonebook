@@ -1,9 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { contactReduce } from './reducerContactSlice';
 import { filterReduce } from 'store/reducerFilterSlice';
-// import { Store } from '@reduxjs/toolkit';
-// import { persistStore, persistReducer } from 'redux-persist';
-// import storage from 'redux-persist/lib/storage';
+
 
 
 export const store = configureStore({
