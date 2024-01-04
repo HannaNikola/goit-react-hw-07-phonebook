@@ -9,6 +9,7 @@ import { ADD_CONTACT } from 'store/reducerContactSlice';
 import { selectContacts } from 'store/Selectors';
 
 
+
 const phonebookSchema = Yup.object().shape({
     name: Yup.string().min(3, 'Too short!').required('This field is required'),
     number: Yup.number().min(6, 'Too short!').required('This field is required'),
@@ -18,7 +19,7 @@ const phonebookSchema = Yup.object().shape({
 
 export const ContactForm = () => {
     const dispatch = useDispatch();
-    // const contacts = useSelector(state => state.contact.contacts);
+    
     const contacts = useSelector(selectContacts);
 
 
@@ -36,8 +37,10 @@ export const ContactForm = () => {
 
         const contactWithId = { ...newContact, id: generateId() };
         dispatch(ADD_CONTACT(contactWithId));
+        
 
     }
+
 
 
 

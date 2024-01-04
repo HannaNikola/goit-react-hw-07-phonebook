@@ -3,7 +3,7 @@ import {createSlice } from "@reduxjs/toolkit";
 import axios from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
-// import { getContacts } from "components/Api";
+
 
 
 axios.defaults.baseURL =
@@ -11,19 +11,12 @@ axios.defaults.baseURL =
 
 
 
-  // const fetchContactsApi = createAsyncThunk(
-  //   'contactsNumber/fetchAll',
-  //   async () => {
-  //     const data = await getContacts();
-  //     return data;
-  //   }
-  // );
 
 export const fetchContactsApi = createAsyncThunk(
   'contactsNumber/fetchAll',
   async(_, thunkAPI) => {
   try {
-    const response = await axios.get('contacts');
+    const response = await axios.get('/contacts');
     console.log(response.data)
       return response.data;
    } catch (error) {
@@ -38,10 +31,10 @@ export const fetchContactsApi = createAsyncThunk(
 
 export const addContactApi = createAsyncThunk(
   'contacts/addContact',
-  async (_, thunkAPI) => {
+  async (newContact, thunkAPI) => {
     try {
-      const response = await axios.post('/contacts');
-      return response.data;
+      const responseAdd = await axios.post('/contacts', newContact);
+      return responseAdd.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
     }
@@ -50,9 +43,9 @@ export const addContactApi = createAsyncThunk(
 
 export const deleteContactApi = createAsyncThunk(
   'contacts/deleteContact',
-  async (_, thunkAPI) => {
+  async (id, thunkAPI) => {
     try {
-      const response = await axios.delete('/contacts/:id');
+      const response = await axios.delete(`/contacts/${id}`);
       return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
@@ -77,21 +70,34 @@ export const contactSlise = createSlice({
     DELETE_CONTACT(state, action) {
       state.contacts.items = state.contacts.items.filter(
         contact => contact.id !== action.payload
-      );
+      
+       );
     },
   },
   extraReducers: builder => {
     builder
-      .addCase(fetchContactsApi.pending, (state) => {
+      .addCase(fetchContactsApi.pending, state => {
         state.contacts.isLoading = true;
         state.contacts.error = null;
       })
       .addCase(fetchContactsApi.fulfilled, (state, action) => {
-      state.contacts.items = action.payload;
-      state.contacts.isLoading = false;
+        state.contacts.items = action.payload;
+        state.contacts.isLoading = false;
       })
       .addCase(fetchContactsApi.rejected, (state, action) => {
-        state.contacts.isLoading = false; 
+        state.contacts.isLoading = false;
+        state.contacts.error = action.payload;
+      })
+      .addCase(addContactApi.pending, state => {
+        state.contacts.isLoading = true;
+        state.contacts.error = null;
+      })
+      .addCase(addContactApi.fulfilled, (state, action) => {
+        state.contacts.items = action.payload;
+        state.contacts.isLoading = false;
+      })
+      .addCase(addContactApi.rejected, (state, action) => {
+        state.contacts.isLoading = false;
         state.contacts.error = action.payload;
       });
   }
