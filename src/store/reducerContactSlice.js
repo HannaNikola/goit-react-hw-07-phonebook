@@ -54,6 +54,15 @@ export const deleteContactApi = createAsyncThunk(
   }
 );
 
+const hendlePending = state => {
+        state.contacts.isLoading = true;
+        state.contacts.error = null;
+      }
+
+const handleRejected = (state, action) => {
+  state.contacts.isLoading = false;
+  state.contacts.error = action.payload;
+};
 
 export const contactSlise = createSlice({
   name: 'contact',
@@ -67,43 +76,27 @@ export const contactSlise = createSlice({
   
   extraReducers: builder => {
     builder
-      .addCase(fetchContactsApi.pending, state => {
-        state.contacts.isLoading = true;
-        state.contacts.error = null;
-      })
+      .addCase(fetchContactsApi.pending, hendlePending)
       .addCase(fetchContactsApi.fulfilled, (state, action) => {
         state.contacts.items = action.payload;
-        state.contacts.isLoading = false;
-      })
-      .addCase(fetchContactsApi.rejected, (state, action) => {
-        state.contacts.isLoading = false;
-        state.contacts.error = action.payload;
-      })
-      .addCase(addContactApi.pending, state => {
-        state.contacts.isLoading = true;
-        state.contacts.error = null;
-      })
+        state.contacts.isLoading = false;})
+      .addCase(fetchContactsApi.rejected, handleRejected)
+
+      .addCase(addContactApi.pending, hendlePending)
       .addCase(addContactApi.fulfilled, (state, action) => {
         state.contacts.items = [...state.contacts.items, action.payload];
         state.contacts.isLoading = false;
       })
-      .addCase(addContactApi.rejected, (state, action) => {
-        state.contacts.isLoading = false;
-        state.contacts.error = action.payload;
-      })
-      // ;
-      .addCase(deleteContactApi.pending, state => {
-        state.contacts.isLoading = true;
-        state.contacts.error = null;
-      })
+      .addCase(addContactApi.rejected, handleRejected)
+      
+      .addCase(deleteContactApi.pending, hendlePending)
       .addCase(deleteContactApi.fulfilled, (state, action) => {
-        state.contacts.items = state.contacts.items.filter(contact => contact.id !== action.payload.id)
+        state.contacts.items = state.contacts.items.filter(
+          contact => contact.id !== action.payload.id
+        );
         state.contacts.isLoading = false;
       })
-      .addCase(deleteContactApi.rejected, (state, action) => {
-        state.contacts.isLoading = false;
-        state.contacts.error = action.payload;
-      });
+      .addCase(deleteContactApi.rejected, handleRejected);
   }
 });
 
