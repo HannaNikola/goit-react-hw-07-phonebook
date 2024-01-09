@@ -34,12 +34,11 @@ console.error('Mistake', error)
     <List>
       {filteredContacts.map((contact) => (
         <ListItem key={contact.id}>
-          {contact.name}: {contact.phone}
+          {contact.name}: {contact.number}
           <ButtonDelete onClick={() => deleteContact(contact.id)}>Delete</ButtonDelete>
         </ListItem>
       ))}
-    </List>
-  );
+    </List>)
 };
 
 
