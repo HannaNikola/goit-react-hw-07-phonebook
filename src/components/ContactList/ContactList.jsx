@@ -1,8 +1,8 @@
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import { DELETE_CONTACT } from "store/reducerContactSlice";
 import { List, ListItem, ButtonDelete } from "./ContactList.styled";
 import { selectContacts, selectFilter } from "store/Selectors";
+import { deleteContactApi } from "store/reducerContactSlice";
 
 
 
@@ -13,8 +13,13 @@ export const ContactList = () => {
   const filter = useSelector(selectFilter);
   const dispatch = useDispatch();
 
-  const deleteContact = (id) => {
-    dispatch(DELETE_CONTACT(id));
+  const deleteContact = async (id) => {
+    try {
+      dispatch(deleteContactApi(id));
+    }catch(error){
+console.error('Mistake', error)
+    }
+    // dispatch(DELETE_CONTACT(id));
   };
   const filteredContacts = contacts.filter(contact =>
 
@@ -22,6 +27,7 @@ export const ContactList = () => {
 
   )
   
+
 
   return (
     <List>

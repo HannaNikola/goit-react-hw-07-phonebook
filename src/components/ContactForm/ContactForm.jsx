@@ -5,8 +5,8 @@ import * as Yup from 'yup';
 import { StyleForm, ButtonAdd, StyleError, InputStyle, Box } from './ContactForm.styled';
 import { nanoid } from 'nanoid';
 import { useDispatch, useSelector } from 'react-redux';
-import { ADD_CONTACT } from 'store/reducerContactSlice';
 import { selectContacts } from 'store/Selectors';
+import { addContactApi } from 'store/reducerContactSlice';
 
 
 
@@ -27,7 +27,7 @@ export const ContactForm = () => {
         return nanoid();
     };
 
-    const addContactHandle = (newContact) => {
+    const addContactHandle = async (newContact) => {
         const name = newContact.name;
 
         if (contacts.some(contact => contact.name.toLowerCase() === name.toLowerCase())) {
@@ -36,12 +36,15 @@ export const ContactForm = () => {
         }
 
         const contactWithId = { ...newContact, id: generateId() };
-        dispatch(ADD_CONTACT(contactWithId));
+        try {
+            await dispatch(addContactApi(contactWithId))
+        } catch (error) {
+            console.error('Mistake',error)
+        }
+        // dispatch(ADD_CONTACT(contactWithId));
         
 
     }
-
-
 
 
 

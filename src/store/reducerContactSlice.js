@@ -41,6 +41,7 @@ export const addContactApi = createAsyncThunk(
   }
 );
 
+
 export const deleteContactApi = createAsyncThunk(
   'contacts/deleteContact',
   async (id, thunkAPI) => {
@@ -63,17 +64,7 @@ export const contactSlise = createSlice({
       error: null,
     },
   },
-  reducers: {
-    ADD_CONTACT(state, action) {
-      state.contacts.items.push(action.payload);
-    },
-    DELETE_CONTACT(state, action) {
-      state.contacts.items = state.contacts.items.filter(
-        contact => contact.id !== action.payload
-      
-       );
-    },
-  },
+  
   extraReducers: builder => {
     builder
       .addCase(fetchContactsApi.pending, state => {
@@ -104,7 +95,7 @@ export const contactSlise = createSlice({
 });
 
 export const contactReduce = contactSlise.reducer;
-export const { ADD_CONTACT, DELETE_CONTACT } = contactSlise.actions;
+// export const { ADD_CONTACT, DELETE_CONTACT } = contactSlise.actions;
 
 
 
