@@ -84,10 +84,23 @@ export const contactSlise = createSlice({
         state.contacts.error = null;
       })
       .addCase(addContactApi.fulfilled, (state, action) => {
-        state.contacts.items = action.payload;
+        state.contacts.items = [...state.contacts.items, action.payload];
         state.contacts.isLoading = false;
       })
       .addCase(addContactApi.rejected, (state, action) => {
+        state.contacts.isLoading = false;
+        state.contacts.error = action.payload;
+      })
+      // ;
+      .addCase(deleteContactApi.pending, state => {
+        state.contacts.isLoading = true;
+        state.contacts.error = null;
+      })
+      .addCase(deleteContactApi.fulfilled, (state, action) => {
+        state.contacts.items = [...state.contacts.items, action.payload];
+        state.contacts.isLoading = false;
+      })
+      .addCase(deleteContactApi.rejected, (state, action) => {
         state.contacts.isLoading = false;
         state.contacts.error = action.payload;
       });
@@ -95,7 +108,7 @@ export const contactSlise = createSlice({
 });
 
 export const contactReduce = contactSlise.reducer;
-// export const { ADD_CONTACT, DELETE_CONTACT } = contactSlise.actions;
+
 
 
 

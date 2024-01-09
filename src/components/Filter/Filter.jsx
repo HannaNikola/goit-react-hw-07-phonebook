@@ -6,7 +6,7 @@ import { selectFilter } from "store/Selectors";
 
 export const FilterName = () => {
     const dispatch = useDispatch();
-    // const filter = useSelector((state) => state.filter.filter);
+    
     const filter = useSelector(selectFilter);
 
     const handleFilterChange = (event) => {
@@ -16,6 +16,11 @@ export const FilterName = () => {
         dispatch(FILTER_CONTACT(filterValue));
 
     };
+
+
+
+
+
 
     return (
         <DivBox>

@@ -7,9 +7,9 @@ import { deleteContactApi } from "store/reducerContactSlice";
 
 
 export const ContactList = () => {
-  // const contacts = useSelector((state) => state.contact.contacts.items);
+  
   const contacts = useSelector(selectContacts);
-  // const filter = useSelector((state) => state.filter.filter);
+ 
   const filter = useSelector(selectFilter);
   const dispatch = useDispatch();
 
@@ -19,15 +19,16 @@ export const ContactList = () => {
     }catch(error){
 console.error('Mistake', error)
     }
-    // dispatch(DELETE_CONTACT(id));
+    
   };
+
+
   const filteredContacts = contacts.filter(contact =>
 
     contact.name.toLowerCase().includes(filter.toLowerCase())
 
   )
   
-
 
   return (
     <List>
