@@ -97,7 +97,7 @@ export const contactSlise = createSlice({
         state.contacts.error = null;
       })
       .addCase(deleteContactApi.fulfilled, (state, action) => {
-        state.contacts.items = [...state.contacts.items, action.payload];
+        state.contacts.items = state.contacts.items.filter(contact => contact.id !== action.payload.id)
         state.contacts.isLoading = false;
       })
       .addCase(deleteContactApi.rejected, (state, action) => {
